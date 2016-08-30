@@ -1,0 +1,45 @@
+<!doctype html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Event Handler Example</title>
+
+<script type="application/javascript">
+
+   var people = {name:"13213",age:"1212"};
+    with (people)
+    {
+        console.log(name+"|"+age);
+
+    }
+
+function alert2(){
+
+    with (document)
+    {
+        console.log(document.forms[0]);
+
+            with(document.forms[0])
+            {
+               console.log(username.value );
+            }
+
+        with ("ddddeeed")
+        {
+
+           console.log(replace("e","www"));
+        }
+
+
+    }
+}
+</script>
+</head>
+<body>
+<form method="post">
+    <input type="text" name="username" value="enter username">
+    <input type="button" value="Echo Username" onclick="alert2()">
+</form>
+
+</body>
+</html>
