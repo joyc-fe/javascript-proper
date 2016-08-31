@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="../../css/base.css"/>
+    <link rel="stylesheet" href="../../css/techblog.css"/>
+    <script type="text/javascript">
+
+
+
+        window.onload =function() {
+
+            var btn = document.getElementById("btn"); //按钮
+
+
+            function doSomething() {
+                alert(this);
+            }
+
+           // btn.onclick = doSomething;///点击按钮后的执行结果；
+             btn.onclick = function () {
+                 alert(this);
+                doSomething();
+            }///点击按钮后的执行结果；
+
+            //doSomething();//直接调用的执行结果；
+
+            //函数指针
+            //相当于 btn.onclick = doSomething(this);
+
+
+        }
+
+    </script>
+</head>
+<body>
+
+<div class="container">
+
+    <ul>
+        <li>
+            <h2 class="funname"> 函数指针是个什么鬼？ </h2>
+            <span class="fundescription">
+
+               <input id="btn" type="button" value="看看我弹出的对象有何不同？">
+               </span>
+            <p class="mythink">
+            </p>
+        </li>
+
+
+
+    </ul>
+
+</div>
+
+</body>
+</html>

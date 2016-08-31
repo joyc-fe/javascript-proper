@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content = "width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      <title></title>
+
+    <meta >
+
+    <script type="text/javascript" src="../../script/jquery.min.js"></script>
+    <script type="text/javascript">
+
+        $(window).scroll(function(){
+
+            console.log("$(document).scrollTop():"+$(document).scrollTop());
+            console.log("$(document).height():"+$(document).height());
+
+        });
+
+
+        $(document).keydown(function(){
+            console.log("keydown");
+        });
+
+
+        $(document).keypress(function(){
+            console.log("keypress");
+        });
+
+        $(document).keyup(function(){
+            console.log("keyup");
+        });
+
+      $(document).ready(function(){
+         alert($("#gggg").find("img").attr("src"));
+      });
+
+
+    </script>
+</head>
+<body>
+<div id="gggg">
+    <div>
+    <img src="https://www.baidu.com/img/baidu_jgylogo3.gif"/>
+    </div>
+</div>
+</body>
+</html>

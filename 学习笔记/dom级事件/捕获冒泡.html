@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+
+</head>
+<body>
+事件冒泡  可以只在最上层添加事件获取事件源，减少每个元素都要添加事件
+
+<div id="div2"  style="width: 500px; height: 500px; background-color: #fc2e5a">
+    <div id="div1" style="width: 300px; height: 300px; background-color: cornflowerblue">
+        <span id="span" style="width: 100px; height: 30px; background-color: #08c406">This is a span.</span>
+    </div>
+</div>
+
+历史原因：网景捕获模型，微软冒泡模型
+
+捕捉模型(从html-->body--->div)
+<br/>
+
+也就说事件有两次机会触发 一次是捕获阶段 一次是冒泡阶段 <br/>
+
+WEB开发人员可以通过addEventListener()方法来选择在哪个阶段注册事件处理器（捕获阶段还是冒泡阶段），
+<br/>
+这个方法在Advanced models中有详细描述，其最后一个参数为true，则代表事件在捕获阶段被处理，false则代表事件在冒泡阶段被处理。
+
+
+element1.addEventListener('click',doSomething2,true)
+element2.addEventListener('click',doSomething,false)
+事件首先被element1捕获，然后执行doSomething2，接着事件传递给element2，doSomething被执行，接着，事件冒泡回溯，检查是否有父元素(element1)定义了冒泡阶段的事件处理器，这里没有，所以事件终止。
+
+<script type="text/javascript">
+    window.onload = function() {
+
+        document.getElementsByTagName("body").item(0).addEventListener("click",eventPerformed);
+    }
+    function eventPerformed(event) {
+        var target = event.target;
+        switch (target.id) {
+            case "span":
+                alert("您好，我是span。");
+                break;
+            case "div1":
+                alert("您好，我是第二层div。");
+                break;
+            case "div2":
+                alert("您好，我是最外层div。");
+                break;
+        }
+    }
+</script>
+
+</body>
+</html>
