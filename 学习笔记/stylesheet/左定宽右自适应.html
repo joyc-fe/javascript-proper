@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style type="text/css">
+        html,body{
+            margin:0px;
+            height:100%;
+            padding: 0px;
+        }
+
+    </style>
+</head>
+<body>
+<div style="width: 180px;  background-color: #007aff; float: left;height: 100%">
+    侧边1
+</div>
+
+<div style="width: 160px; background-color: transparent; border: 1px solid #fc2e5a; float: left;height: 100%">
+    侧边2
+</div>
+
+
+
+
+<div style="background-color: #fc2e5a; height: 100%; margin-left: 200px; width: auto;  overflow: scroll " id="main">
+    <div style="width:100%; background-color: #007aff; height: 1000px;   margin-top:0px; ">
+
+    <h2>利用盒模型原理实现 + auto</h2>
+
+
+        <pre>
+         实现原理，左外边距+宽度自适应；难点盒模型原理，宽度等于margin+border+padding+ content.width；
+
+         width:auto包含margin-left/margin-right的属性值，100% - margin-left\margin-right；
+
+         上面的实现是个很巧妙的问题，左侧浮动，右侧margin-left才会以父元素为准，这只是很巧妙的方法。  此乃妙计（亮有一妓 哈哈）。
+
+         那么问题来了... 如果把侧边2打开，会是什么效果呢？
+
+         效果就是自动右移。
+
+         那么问题又来了... 主div实际margin-left是多少呢？
+
+         如果还是原值，那么计算   content.width 的公式怎么解释呢？
+
+         还是200px，。。。。 那只能猜另一种计算方法了  auto：屏幕宽度减去实际起始位置。
+
+         还有一个问题，如果打开侧边2 name="子元素" 这些元素的 margin-left也就失效了....  等等
+
+         把 侧边2 背景设为透明  真相出现了 ，原来 main div 位置没有变， 那些 auto的计算公式就还是第一种，没错。
+
+         name="子元素" 的位置也没变，   main 占用了 子元素的位置，但是文字没有占用子元素位置，   文字不是element。
+
+       <h2>浮动的意义就是要让文字环绕 ,这才是核心（蚊子说你挡住我了）</h2>
+
+         元素浮动以某种方式将浮动元素从文档的正常流中删除，并把浮动元素向左边和右边浮动，不过它还是会影响布局
+
+         关于浮动的有许多规则，读者可自行阅读《CSS权威指南》一书
+
+         此问题是一个css专题 ，文档流
+         http://www.jb51.net/css/124333.html
+
+
+         main  加上 overflow-y: scroll 之后问题又变了，哈哈哈； overflow 指的是自身对象还是内容呢？还是都起作用呢？
+
+
+            <h1>核心：看初版 初版 初版， 最新版本知识已经爆炸到海量了..... 很难掌握。</h1>
+
+         问题来了：width:100% 和 auto的区别？
+
+         那height: auto 100% 区别？
+
+         实现 height : 100% 必须先要设置
+         html,body{
+         margin:0px;
+         height:100%;}
+
+         height：auto 将会根据子元素高度计算；和width的auto根据父元素计算 完全不一样。
+        </pre>
+
+
+    </div>
+
+    <div>
+
+        <div style="background: #f6844e; width: auto;  height: 20px; " name="子元素">
+           <p style="border: 1px solid #000"> background: #f6844e; width: auto; padding: 50px; margin: 50px;</p>
+        </div>
+
+        <div style="background: #f8844e; width: auto;   margin-left: 50px;height: 40px;" name="子元素">
+            background: #f6844e; width: auto; padding: 50px; margin: 50px;
+        </div>
+
+        <div style="background: #f6864e; width: auto;   margin-left: 100px;height: 40px;" name="子元素">
+            background: #f6844e; width: auto; padding: 50px; margin: 100px;
+        </div>
+
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAnCAYAAAB5XdqFAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2hpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDoyRTlBMjNFRkQ0MDhFNDExODc1MEYzQ0JFQURFQ0VCNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyQjc0QjE4NkZERkQxMUU0QTREQ0YxNzY5Q0UyRjA4MyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyQjc0QjE4NUZERkQxMUU0QTREQ0YxNzY5Q0UyRjA4MyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6MDU4MDExNzQwNzIwNjgxMTgyMkFGNjg2RTEzQzA3MjkiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6MkU5QTIzRUZENDA4RTQxMTg3NTBGM0NCRUFERUNFQjciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4aEoG4AAAEUUlEQVR42sSYd2gUURDG77zYY8GSs8YaOwrmFAtYEKxYsBfsmKCgsYuKGFQIKoIF/4goothFFBUTREEUCxas2IiKDY1iSTQqJl78Br6Fcb3d2727JAM/2Ld3b/fbefPmzXvelJQUT4RWCbQGjUB1EAQF4BV4Cn55orDMzMx/2nEu+4uwCWAI6ATKW/yvCNwE2eAghUdl5Rz+ryc4Dx6B1SBgI9JwQDeQDh6DLLYjtnAeTQBbwPgQv8lQ54Bn4Cs/Oh60Ai2UE7xgIBgADoA08CmWQnuBI8Cv7hWCkxzOs+CbRd+aoB+YCIYDHwVPAn3BWHA5FkMvDzynRBaDPSAJjAbHbER66GH5zyh6+CCfIdaAzx4VrdBhFGXE4DvQH0wDLyMIr+f07GCQqzKGhMHQSIUm8+t9bN8HXemBaC2bz3rEdgW+q4NbofH8yipsP2acvfHEzl4xRnPYrgoOgYpuhK5kPBkxJsPy0RN7y+Wz89luz3c7EtoYLFD356uvLgmT0Vqs2otM2cVSaJpy/xWw18VLJe1sZ+zNcNFvJ7jFawm3eeGEyuyequ6tUanEiTUEc0CbcC8zmbxjrWrPVJM4pFCZMHXYfsFEHmmKK+ey72nwltd+LtW2Qg075tKb0dofrnSG9bcTGlDti57StwvqOmAnNEm175eB0HvquoVdUaLTwmubB1ZgiZdkul9FXSeykNGWB9bZLL9vTBPTUqhRQf1kzFjZILAijHdqgDEh7ku1P9eiz3d1XdlJmVeZoRC0+O9VxlNiiGcY936HWHJle3I4zJbGo5xlKVSWybqqUH5v8d8PXKfNlqiG9Qno6DJG/aby0HIy6dhpWwaTqbW6zrETelu1u5WBUJ3k79oJ1XlsRBkIHWaRU/8TmsVJINYFtCtFkS1BbWaFAhbXlkK/gOOqElru8mXvVBWU5bKvTOKjHPL9FGubnjaDcbyW/c02cN3hywo5EjXsZq2Fk6Qu3cGMcty2llRHOie4tRV7yJf/KKEh95qKH7/a+IUt0eapLXA77kR9JSByFngANoBqFP0hXCdfcnKyXpNlrR+pxDZlzRiMkch4HjwkMC0Jp5yMnLnQ3ccvNWwKJ4g/BiLrgTOmd8ppzA0n+Vt71LDz/OIubDcHk8Fnzk63hbVM2OmcA20sjn+mcsZfc3NSUsw90Eo15OLRXawdZzP3OUk9cxmPspGrpar6JayyjCwh+7ZNDIPa4WZ9KJMiZDdoYrpfxCG7wyObfOUdGYHOPHUxO+IZd6rGTqIZ69eAqSaWs69LboQa5d8ybqlrRhifsqhsZL42l3LizfU8S/AqR6zifAk63TXKg9NZzs3hrP3joF8R1+5U9s2wqDdlwVjIOuOTiusMTuS6Tj1qVcl3Z1nYiGnHwzz8lrF8y+VKZdS2cnDWw7RE94mLcCjzWEBkx3gxkEO03txjLWUo1AcDvcXFpbONT01NddtFjtK3ck814q8AAwBmN+66rcnZ9gAAAABJRU5ErkJggg=="/>
+    </div>
+</div>
+
+</body>
+</html>
