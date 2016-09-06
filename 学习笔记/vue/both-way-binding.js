@@ -6,8 +6,8 @@ var bindingMark = 'data-element-binding'
 function Element (classa, initData) {
     var self     = this,
         el          = self.el = document.getElementsByClassName(classa),//多个input改为class
-        bindings = {}
-    data      = self.data = {}
+        bindings = {} //虚拟dom对象  这里不能算dom tree, vue的虚拟dom 只能算treenode集合吧
+        data = self.data = {}
 
     /**
      * 替换掉 v-model,?
@@ -51,7 +51,7 @@ function Element (classa, initData) {
      * */
     function markToken (match, variable) {
         bindings[variable] = {}
-        return  bindingMark + '="' + variable +'"' //内填一个span变为只改它的元素
+        return  bindingMark + '="' + variable +'"'
     }
     /**
      *bindings[variable].els 给虚拟dom设置对象
@@ -61,14 +61,31 @@ function Element (classa, initData) {
         bindings[variable].els = document.querySelectorAll('[' + bindingMark + '="' + variable + '"]')//document获取binding元素
         ;
 
+        [].forEach.call(bindings[variable].els, function (e) {
+            //删除data-element-binding属性
+            e.removeAttribute(bindingMark);
+
+            e.addEventListener("input",function(){
+                data[variable] = e.value
+                console.log(e.value);
+            });
+
+        });
+
+
+
+
+        // 1.属性所在对象, 2.属性名称, 3.描述符对象
         Object.defineProperty(data, variable, {
             set: function (newVal) {
+
                 [].forEach.call(bindings[variable].els, function (e) {
-                    bindings[variable].value = e.value = newVal //=>textContent改为input的value
+                    // 为对象赋值  这是有value属性的input
+                    bindings[variable].value = e.value = newVal; //=>textContent改为input的value
                 })
             },
             get: function () {
-                return bindings[variable].value
+                return bindings[variable].value;
             }
         })
     }
@@ -95,24 +112,26 @@ function Element2 (id, initData) {
         }
     }
     function markToken (match, variable) {
-        bindings[variable] = {} //bindings里存储了数据来源的字段比如bindings['msg']
-        return '<span ' + bindingMark + '="' + variable +'"></span>'
+        bindings[variable] = {}; //bindings里存储了数据来源的字段比如bindings['msg']
+        return '<span ' + bindingMark + '="' + variable +'"></span>'; //内填一个span变为只改它的元素
     }
     function bind (variable) {
-        bindings[variable].els = el.querySelectorAll('[' + bindingMark + '="' + variable + '"]')//bindings里再存储msg绑定的元素
-        ;[].forEach.call(bindings[variable].els, function (e) { //删除data-element-binding属性
-            e.removeAttribute(bindingMark)
+        bindings[variable].els = el.querySelectorAll('[' + bindingMark + '="' + variable + '"]')
+            //bindings里再存储msg绑定的元素
+        ;[].forEach.call(bindings[variable].els, function (e) {
+            //删除data-element-binding属性
+            e.removeAttribute(bindingMark);
         })
         Object.defineProperty(data, variable, { //es5观察属性
 
             set: function (newVal) {
                 // 1.属性所在对象,2.属性名称,3.描述符对象
                 [].forEach.call(bindings[variable].els, function (e) {
-                    bindings[variable].value = e.textContent = newVal //=>这里才是实现的绑定,更新数据到dom并更新内部暂存数据
+                    bindings[variable].value = e.textContent = newVal; //=>这里才是实现的绑定,更新数据到dom并更新内部暂存数据
                 })
             },
             get: function () {
-                return bindings[variable].value  //取数据仅仅是内部暂存的数据
+                return bindings[variable].value ; //取数据仅仅是内部暂存的数据
             }
         })
     }
@@ -128,11 +147,4 @@ new Element2('div2', {
     hey:data.hey
 })
 
-function handleChange(e){ //增加v=>m的绑定
-    e = e || window.event
-    var key = e.target.outerHTML.match(/data-element-binding=\"(.*)\"/)[1];
-    data[key] = e.target.value
-    console.log(data.hey,data.msg);
 
-
-}
