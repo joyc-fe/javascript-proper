@@ -13,19 +13,32 @@ function Element (classa, initData) {
      * 替换掉 v-model,?
      * 重新赋值相当于get set
      *
-     * replace 第二个参数是function(argument1,argument2) 怎么传值的？
+     * replace 第二个参数是function(argument1,argument2,....,arguments[n-1],arguments[n])
+     * 第1个是匹配匹配项；
+     * 第2个是第一个捕获组的匹配项；
+     * 第3个是第二个捕获组的匹配项；
+     * n-1 是位置
+     * n 原始字符串
+     *
      * */
     for (var i = 0; i < el.length; i++) {
         content  = el[i].outerHTML.replace(/v-model=\"(.*)\"/g, markToken); // get
         el[i].outerHTML = content //set
     }
     /**
-     * ？
+     * 对虚拟对象进行遍历处理
      * */
     for (var variable in bindings) {
         bind(variable);
     }
     /**
+     * 设置对象数据，
+     *
+     * initData 是要从外部传进来的
+     *
+     * 绑定对象key要和model.key一致
+     *
+     * data
      *
      * */
     if (initData) {
@@ -34,19 +47,20 @@ function Element (classa, initData) {
         }
     }
     /**
-     *
+     * bindings？ 建立虚拟dom对象，此时还是空的
      * */
     function markToken (match, variable) {
         bindings[variable] = {}
         return  bindingMark + '="' + variable +'"' //内填一个span变为只改它的元素
     }
     /**
-     *
+     *bindings[variable].els 给虚拟dom设置对象
      * */
     function bind (variable) {
-
+        //设置虚拟dom的元素
         bindings[variable].els = document.querySelectorAll('[' + bindingMark + '="' + variable + '"]')//document获取binding元素
         ;
+
         Object.defineProperty(data, variable, {
             set: function (newVal) {
                 [].forEach.call(bindings[variable].els, function (e) {
@@ -59,6 +73,10 @@ function Element (classa, initData) {
         })
     }
 }
+
+
+
+
 
 function Element2 (id, initData) {
     var self     = this,
@@ -86,7 +104,9 @@ function Element2 (id, initData) {
             e.removeAttribute(bindingMark)
         })
         Object.defineProperty(data, variable, { //es5观察属性
+
             set: function (newVal) {
+                // 1.属性所在对象,2.属性名称,3.描述符对象
                 [].forEach.call(bindings[variable].els, function (e) {
                     bindings[variable].value = e.textContent = newVal //=>这里才是实现的绑定,更新数据到dom并更新内部暂存数据
                 })

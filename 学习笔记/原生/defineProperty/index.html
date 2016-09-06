@@ -3,8 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
+    <script type="text/javascript">
+        var newLine = "<br />";
+
+        // Create a user-defined object.
+        var obj = {};
+
+        // Add an accessor property to the object.
+        Object.defineProperty(obj, "newAccessorProperty", {
+            set: function (x) {
+                document.write("in property set accessor" + newLine);
+                this.newaccpropvalue = x;
+            },
+            get: function () {
+                document.write("in property get accessor" + newLine);
+                return this.newaccpropvalue;
+            },
+            enumerable: true,
+
+            configurable: true,
+
+        });
+
+        // Set the property value.
+        obj.newAccessorProperty = 30;
+        document.write("Property value: " + obj.newAccessorProperty + newLine);
+
+
+
+
+        Object.defineProperty(obj, 'key', {
+            enumerable: false,
+            configurable: true,
+            writable: false,
+            value: 'static'
+        });
+
+     var fff=  new Function("alert('ffff 还可以这样！')");
+     fff();
+    </script>
 </head>
 <body>
+<pre>
 
+
+
+
+ descriptor 具有 value 或 writable 特性 就不能再有，有 get 或 set 特性，反之亦然。
+
+ descriptor 包含一个或多个与现有属性中特性不同的特性; 完全没懂
+
+ 当 configurable = false;writable=true; 允许 value 或 writable 特性不同；
+
+ <h2> page 139 :defineProperty.</h2>
+
+    还是要看正规资料；
+
+    从147往后就没仔细看，需要补上。<h2>非常重要</h2>
+
+
+     var fff=  new Function("alert('ffff 还可以这样！')");
+
+
+</pre>
 </body>
 </html>
