@@ -1,0 +1,48 @@
+<html>
+<head>
+    <script src="http://code.jquery.com/jquery-latest.js"></script>
+</head>
+<body>
+
+<button id="Resolve">Filter Resolve</button>
+
+<button id="Reject">Filter Reject</button>
+
+<p></p>
+
+<script>
+    var filterResolve = function() {
+
+        var defer = $.Deferred(),
+                filtered = defer.then(function( value ) {
+                    return value * 2;
+                });
+
+        defer.resolve( 5 );
+        filtered.done(function( value ) {
+            $( "p" ).html( "Value is ( 2*5 = ) 10: " + value );
+        });
+    };
+
+    $("#Resolve").on( "click", filterResolve );
+
+
+    var filterReject = function(){
+        var defer = $.Deferred(),
+                filtered = defer.then( null, function( value ) {
+                    return value * 3;
+                });
+        //reject 就是要制造失败的
+        defer.reject( 5 );
+        filtered.fail(function( value ) {
+            alert( "Value is ( 3*6 = ) 18: " + value );
+        });
+
+    }
+
+    $("#Reject").on( "click", filterReject );
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<html>
+<body>
+
+<script type="text/javascript">
+    (function () {
+        var window = this,
+                _jQuery = window.jQuery,
+                _$ = window.$,
+
+                jQuery = window.jQuery = window.$ = function (selector, context) {
+
+                    return new jQuery.fn.init(selector, context);
+                },
+
+                quickExpr = /^[^<]*(<(.|\s)+>)[^>]*$|^#([\w-]+)$/,
+
+                isSimple = /^.[^:#\[\.,]*$/;
+
+        jQuery.fn = jQuery.prototype = {
+            init: function (selector, context) {
+
+                selector = selector || document;
+                this[0] = selector;
+                this.length = 1;
+                this.context = selector;
+                return this;
+            },
+            show: function () {
+                alert("this.show");
+            },
+
+            selector: "",
+
+            jquery: "1.3.2"
+        };
+
+        jQuery.fn.init.prototype = jQuery.fn;
+
+    })();
+
+    function test(src) {
+        alert(JSON.stringify($(src)));
+        $(src).show();
+    }
+
+    test("body");
+</script>
+
+</body>
+</html>
