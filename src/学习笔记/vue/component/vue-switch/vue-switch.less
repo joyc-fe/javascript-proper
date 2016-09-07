@@ -1,0 +1,68 @@
+
+// 表单行高
+@form-group-height:     48px;
+.vue-switch-view {
+    text-align: right;
+    position: relative;
+    height: @form-group-height - 2;
+    display: block;
+
+}
+.vue-switch-view {
+    .vue-switch{
+        position: absolute;
+        display: inline-block;
+        top: 50%;
+        right: 0;
+        margin-top: -7px
+    }
+}
+
+.vue-switch {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+    width: 38px;
+    height: 15px;
+    border: 1px solid #e1e1e1;
+    outline: 0;
+    border-radius: 15px;
+    box-sizing: border-box;
+    background: #e1e1e1;
+}
+.vue-switch:before {
+    width: 20px;
+    background-color: #c3c3c3;
+}
+.vue-switch:after,
+.vue-switch:before {
+    content: " ";
+    position: absolute;
+    top: -4px;
+    left: -1px;
+    height: 20px;
+    border-radius: 15px;
+    -webkit-transition: -webkit-transform 0.3s;
+    transition: -webkit-transform 0.3s;
+    transition: transform 0.3s;
+    transition: transform 0.3s,-webkit-transform 0.3s;
+}
+.vue-switch:after {
+    width: 20px;
+    background-color: #c3c3c3;
+    // box-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+.vue-switch:checked {
+    border-color: #f3a3a3;
+    background-color: #f3a3a3;
+}
+.vue-switch:checked:before {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+.vue-switch:checked:after {
+    background-color: #e74848;
+    -webkit-transform: translateX(20px);
+    transform: translateX(20px);
+}
